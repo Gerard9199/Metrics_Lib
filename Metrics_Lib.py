@@ -26,7 +26,7 @@ def clustering(data):
     data['CLUSTERS'] = clustering.labels_
     return data
 
-def normalize(data):
+def standardization(data):
     if 'TICKER' in data:
         data = data.drop(['TICKER'], axis=1)
     if 'CLUSTERS' in data:
