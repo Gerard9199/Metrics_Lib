@@ -100,4 +100,5 @@ def null_portfolio(prices, portfolio, selected_portfolio):
         replaces = (np.random.choice(selected_portfolio['TICKER'], n, replace=False)).tolist() #new portfolio tickers
         prices[replaces] = yf.download(replaces, start = start, end = today, interval="1d" )['Adj Close']
         portfolio = replace_item(portfolio, old, replaces)
-    return prices, portfolio
+        Last_price = yf.download(portfolio, today)['Adj Close']
+    return Last_price, prices, portfolio
