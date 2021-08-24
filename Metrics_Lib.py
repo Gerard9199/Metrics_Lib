@@ -99,18 +99,18 @@ def CAPM(portfolio, composite, Risk_Free_Rate, Shares, Years):
     if prices.loc[:, prices.isna().any()].shape[1] >= 1:
         Last_price, prices, portfolio = null_portfolio(prices, portfolio, selected_portfolio)
     else:
-    Last_price = yf.download(portfolio, start = start, end = today)['Adj Close']    
-    Ponderation = ((Last_price * Shares).apply(lambda x: x/((Last_price * Shares).sum(axis=1)), 0)).to_numpy()
-    Average_Daily_Return = (prices.pct_change())[portfolio].mean()
-    Portfolio_Daily_Return = np.dot(np.squeeze(Average_Daily_Return),np.squeeze(Ponderation.T))
-    Portfolio_Annual_Return = ((1 + Portfolio_Daily_Return)**252)-1
-    Portfolio_Daily_Risk = (np.sqrt(np.matmul(Ponderation,np.matmul((((prices.pct_change())[portfolio].cov()[portfolio])),Ponderation.T)))).to_numpy()
-    Portfolio_Annual_Risk = Portfolio_Daily_Risk * np.sqrt(252)
-    Investment = (Last_price * Shares).sum(axis = 1)   
-    Daily_Composite_Return = (prices.pct_change())[composite].mean()
-    Stock_Beta = pd.DataFrame(beta_calculator(prices.pct_change())).drop(composite,axis=0)
-    Portfolio_Beta = np.dot(Stock_Beta.T,Ponderation.T)
-    Market_Return = ((1 + Daily_Composite_Return)**252)-1
-    CAPM = Risk_Free_Rate + Stock_Beta * (Market_Return - Risk_Free_Rate)
-    Portfolio_CAPM = Risk_Free_Rate + Portfolio_Beta * (Market_Return - Risk_Free_Rate)
+        Last_price = yf.download(portfolio, start = start, end = today)['Adj Close']    
+        Ponderation = ((Last_price * Shares).apply(lambda x: x/((Last_price * Shares).sum(axis=1)), 0)).to_numpy()
+        Average_Daily_Return = (prices.pct_change())[portfolio].mean()
+        Portfolio_Daily_Return = np.dot(np.squeeze(Average_Daily_Return),np.squeeze(Ponderation.T))
+        Portfolio_Annual_Return = ((1 + Portfolio_Daily_Return)**252)-1
+        Portfolio_Daily_Risk = (np.sqrt(np.matmul(Ponderation,np.matmul((((prices.pct_change())[portfolio].cov()[portfolio])),Ponderation.T)))).to_numpy()
+        Portfolio_Annual_Risk = Portfolio_Daily_Risk * np.sqrt(252)
+        Investment = (Last_price * Shares).sum(axis = 1)   
+        Daily_Composite_Return = (prices.pct_change())[composite].mean()
+        Stock_Beta = pd.DataFrame(beta_calculator(prices.pct_change())).drop(composite,axis=0)
+        Portfolio_Beta = np.dot(Stock_Beta.T,Ponderation.T)
+        Market_Return = ((1 + Daily_Composite_Return)**252)-1
+        CAPM = Risk_Free_Rate + Stock_Beta * (Market_Return - Risk_Free_Rate)
+        Portfolio_CAPM = Risk_Free_Rate + Portfolio_Beta * (Market_Return - Risk_Free_Rate)
     return CAPM, Portfolio_CAPM
