@@ -25,18 +25,18 @@ def clustering(data):
     return data
 
 def cleaner(string):
-        characters_to_remove = "['']"
-        string = str(string)
-        for character in characters_to_remove:
-              string = string.replace(character, "")
-        return string
+    characters_to_remove = "['']"
+    string = str(string)
+    for character in characters_to_remove:
+        string = string.replace(character, "")
+    return string
 
 def replace_item(lst, to_replace, replace_with):
     return sum((replace_with if i==to_replace else [i] for i in lst), [])
 
 def beta_calculator(returns):
-        beta = (returns.cov()[composite])/(returns[composite].var())
-        return beta
+    beta = (returns.cov()[composite])/(returns[composite].var())
+    return beta
 
 def null_portfolio(prices, portfolio, selected_portfolio):
     while prices.loc[:, prices.isna().any()].shape[1] >= 1:        
@@ -85,7 +85,7 @@ def stocks_summary(portfolio, composite, Years):
     if prices.loc[:, prices.isna().any()].shape[1] >= 1:
         Last_price, prices, portfolio = null_portfolio(prices, portfolio, selected_portfolio)
     else:
-    Last_price = yf.download(portfolio, start = start, end = today)['Adj Close'] 
+        Last_price = yf.download(portfolio, start = start, end = today)['Adj Close'] 
     return prices, Last_price
 
 def CAPM(portfolio, composite, Risk_Free_Rate, Shares, Years):
